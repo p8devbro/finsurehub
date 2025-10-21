@@ -5,7 +5,7 @@ export default function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <div className="brand">
-          <img src="/logo.png" alt="FinSure Hub" className="logo" />
+          <img src="/logo.jpg" alt="FinSure Hub" className="logo" />
           <div>
             <h2>FinSure Hub</h2>
             <div className="sub">Finance · Insurance · Fintech</div>

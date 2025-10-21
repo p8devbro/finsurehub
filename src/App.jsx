@@ -5,6 +5,16 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PostCard from "./components/PostCard";
 import PostView from "./components/PostView";
+import Seo from '../components/Seo';
+// ...
+<Seo
+  title={post.title}
+  description={post.excerpt}
+  url={`https://finsurehub.info/posts/${post.slug}`}
+  image={post.image}
+  publishedTime={post.date}
+/>
+
 
 export default function App() {
   const [selectedId, setSelectedId] = useState(null);
@@ -23,7 +33,7 @@ export default function App() {
       <Helmet>
         <title>FinSure Hub — Finance & Insurance Insights</title>
         <meta name="description" content="FinSure Hub: expert articles and guides on finance and insurance to protect and grow your money." />
-        <link rel="canonical" href="https://finsurehub.example.com/" />
+        <link rel="canonical" href="https://finsurehub.info/" />
       </Helmet>
 
       <Header onSearch={() => {}} />
