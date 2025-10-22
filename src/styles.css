@@ -42,6 +42,23 @@ body{
 .brand h2{margin:0;font-size:1.1rem}
 .sub{font-size:0.85rem;opacity:0.9}
 
+.sticky { position: sticky; top: 0; z-index: 1000; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.nav { display:flex; align-items:center; gap:8px;}
+.search-btn{ background:none; border:none; cursor:pointer; color:white;}
+.nav input{ padding:6px 10px; border-radius:6px; border:none;}
+@media (max-width:640px){
+  .nav input{ display:none; }
+}
+
+.hero-slider { margin:1rem 0; background:linear-gradient(90deg,#0b233a,#0f3a57); padding:1rem; color:white; border-radius:12px;}
+.featured-posts{ display:flex; overflow-x:auto; gap:12px; scroll-snap-type:x mandatory;}
+.slide{ flex:0 0 80%; scroll-snap-align:start; position:relative;}
+.slide img{ width:100%; border-radius:10px; object-fit:cover; height:200px;}
+.stock-ticker{ display:flex; overflow-x:auto; gap:16px; padding:8px 0; font-weight:600; font-family:monospace;}
+
+.post-nav{ display:flex; justify-content:space-between; margin-top:20px;}
+.post-nav button{ padding:8px 12px; border:none; background:var(--accent); color:white; border-radius:6px; cursor:pointer;}
+
 /* nav */
 .nav a{
   color: rgba(255,255,255,0.95);
@@ -122,4 +139,144 @@ img {
 @media (max-width:640px){
   .header-inner{flex-direction:column;gap:10px}
   .hero{padding:1.2rem;text-align:center}
+}
+
+
+/* App */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  padding: 1rem;
+  color: #fff;
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.search-input {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  margin: 0.5rem 0;
+  flex: 1;
+  max-width: 300px;
+}
+
+/* Categories */
+.categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  background: #fff;
+  color: #2575fc;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cat-btn.active {
+  background: #2575fc;
+  color: #fff;
+}
+
+/* Hero */
+.hero {
+  margin: 2rem 0;
+}
+
+.hero h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ff5722;
+}
+
+.hero-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* Posts Grid */
+.posts-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #2575fc;
+  color: #fff;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: default;
+}
+
+/* PostView */
+.post-view h1 {
+  color: #ff5722;
+}
+
+.post-footer {
+  margin-top: 2rem;
+}
+
+.back-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background: #2575fc;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  background: #1e1e1e;
+  color: #fff;
+  padding: 2rem 1rem;
+}
+
+.footer .social-links a {
+  margin: 0 0.5rem;
+  color: #ff5722;
+  text-decoration: none;
 }

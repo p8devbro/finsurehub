@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { FiSearch } from "react-icons/fi";
 
-export default function Header() {
+export default function Header({ onSearch }) {
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    if (onSearch) onSearch(query);
+  };
+
   return (
-    <header className="site-header">
-      <div className="container header-inner">
+    <header className="site-header sticky">
+      <div className="header-inner container">
         <div className="brand">
-          <img src="/logo.jpg" alt="FinSure Hub" className="logo" />
-          <div>
-            <h2>FinSure Hub</h2>
-            <div className="sub">Finance · Insurance · Fintech</div>
-          </div>
+          <img src="/public/logo.jpg" alt="FinSure Hub" className="logo" />
+          <h2>FinSure Hub</h2>
         </div>
-        <nav className="nav">
-          <a href="#" onClick={(e)=>e.preventDefault()}>Home</a>
-          <a href="#" onClick={(e)=>e.preventDefault()}>Finance</a>
-          <a href="#" onClick={(e)=>e.preventDefault()}>Insurance</a>
-          <a href="#" onClick={(e)=>e.preventDefault()}>About</a>
-        </nav>
+        <div className="nav">
+          <button className="search-btn" onClick={handleSearch}>
+            <FiSearch size={20} />
+          </button>
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
       </div>
     </header>
   );

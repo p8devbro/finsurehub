@@ -13,7 +13,7 @@ export default function Seo({
   canonical
 }) {
   const siteName = "FinSure Hub";
-  const finalUrl = url || "https://finsurehub.info/";
+  const finalUrl = url || "https://FINSUREHUB.INFO/";
   const img = image || "https://source.unsplash.com/1200x630/?finance,insurance";
 
   const jsonLd = {
@@ -36,7 +36,7 @@ export default function Seo({
       "name": siteName,
       "logo": {
         "@type": "ImageObject",
-        "url": `${finalUrl.replace(/\/$/, "")}/logo.jpg`
+        "url": `${finalUrl.replace(/\/$/, "")}/logo.png`
       }
     },
     "description": description
