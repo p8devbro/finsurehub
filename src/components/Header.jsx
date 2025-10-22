@@ -12,7 +12,7 @@ export default function Header({ onSearch }) {
     <header className="site-header sticky">
       <div className="header-inner container">
         <div className="brand">
-          <img src="/public/logo.jpg" alt="FinSure Hub" className="logo" />
+          <img src="/logo.jpg" alt="FinSure Hub" className="logo" />
           <h2>FinSure Hub</h2>
         </div>
         <div className="nav">
