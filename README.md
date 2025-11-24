@@ -1,2 +1,0 @@
-# finsurehub
-blog for adsense
