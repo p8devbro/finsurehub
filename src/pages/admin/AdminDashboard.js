@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getStorageStats, getSystemStats, healthCheck } from '../../utils/database';
+import { Link } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/config';
+import { getArticles, deleteArticle, getStorageStats, getSystemStats, healthCheck } from '../../utils/database';
+import AdminSidebar from '../../components/AdminSidebar';
+import { useNavigate } from 'react-router-dom';
 
 const SystemMonitor = () => {
   const [stats, setStats] = useState(null);
@@ -84,8 +89,8 @@ const SystemMonitor = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <span>Storage Usage: {stats?.storagePercentage || '0'}%</span>
           <span style={{ 
-            color: stats?.status.includes('Excellent') ? '#4ade80' : 
-                   stats?.status.includes('Good') ? '#fbbf24' : '#f87171'
+            color: stats?.status?.includes('Excellent') ? '#4ade80' : 
+                   stats?.status?.includes('Good') ? '#fbbf24' : '#f87171'
           }}>
             {stats?.status}
           </span>
@@ -98,8 +103,8 @@ const SystemMonitor = () => {
         }}>
           <div 
             style={{ 
-              background: stats?.storagePercentage < 50 ? '#4ade80' : 
-                         stats?.storagePercentage < 80 ? '#fbbf24' : '#f87171',
+              background: (stats?.storagePercentage || 0) < 50 ? '#4ade80' : 
+                         (stats?.storagePercentage || 0) < 80 ? '#fbbf24' : '#f87171',
               height: '100%', 
               width: `${Math.min(100, stats?.storagePercentage || 0)}%`,
               transition: 'width 0.3s ease',
@@ -139,5 +144,129 @@ const SystemMonitor = () => {
   );
 };
 
-// Use in your AdminDashboard:
-<SystemMonitor />
+const AdminDashboard = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadArticles();
+  }, []);
+
+  const loadArticles = async () => {
+    try {
+      const allArticles = await getArticles();
+      setArticles(allArticles);
+    } catch (error) {
+      console.error('Error loading articles:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this article?')) {
+      try {
+        await deleteArticle(id);
+        loadArticles(); // Reload articles
+      } catch (error) {
+        console.error('Error deleting article:', error);
+        alert('Failed to delete article. Please try again.');
+      }
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/admin');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="admin-container">
+        <AdminSidebar />
+        <div className="admin-content">
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            <p>Loading articles...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="admin-container">
+      <AdminSidebar />
+      <div className="admin-content">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <h2>Article Management</h2>
+          <button onClick={handleLogout} className="btn btn-danger">
+            Logout
+          </button>
+        </div>
+
+        <SystemMonitor />
+
+        <Link to="/admin/create" className="btn btn-success" style={{ marginBottom: '2rem' }}>
+          + Create New Article
+        </Link>
+
+        <div className="articles-list">
+          {articles.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#718096' }}>
+              <h3>No articles yet</h3>
+              <p>Create your first article to get started!</p>
+            </div>
+          ) : (
+            articles.map(article => (
+              <div key={article._id} className="article-card" style={{ marginBottom: '1.5rem' }}>
+                <div className="article-content">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{ marginBottom: '0.5rem', color: '#1a365d' }}>{article.title}</h3>
+                      <p style={{ color: '#718096', marginBottom: '0.5rem' }}>
+                        <strong>Status:</strong> 
+                        <span style={{ 
+                          color: article.published ? '#48bb78' : '#e53e3e',
+                          fontWeight: 'bold',
+                          marginLeft: '0.5rem'
+                        }}>
+                          {article.published ? 'Published' : 'Draft'}
+                        </span>
+                      </p>
+                      <p style={{ color: '#718096', marginBottom: '0.5rem' }}>
+                        <strong>Category:</strong> {article.category}
+                      </p>
+                      <p style={{ color: '#a0aec0', fontSize: '0.875rem' }}>
+                        Created: {new Date(article.createdAt).toLocaleDateString()} | 
+                        Updated: {new Date(article.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
+                      <Link to={`/admin/edit/${article._id}`} className="btn btn-primary">
+                        Edit
+                      </Link>
+                      <button 
+                        onClick={() => handleDelete(article._id)} 
+                        className="btn btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard; // Make sure this line exists!
