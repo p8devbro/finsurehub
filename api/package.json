@@ -1,0 +1,16 @@
+{
+  "name": "finsurehub-api",
+  "version": "1.0.0",
+  "description": "Backend API for FinsureHub",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "mongodb": "^4.13.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "vercel": "^28.0.0"
+  }
+}
